@@ -257,7 +257,7 @@ def main():
     # initialize game objects
     carburetor = reg_object('Rusty Carburetor', "An old, rusty carburetor from Earth. Not sure how it found its way here, but it's kind of useless scrap metal now.")
     snackies = reg_object('Space Snacks', "Delicious snacks for space travel that were once in the Storage Pods, and are now in your stomach. :P")
-    sweets = reg_object('StarGuide Sweets', "A somewhat expensive box of round, Zeronian sweets, sold to support the local StarGuide Sector.")
+    sweets = reg_object('StarGuide Sweets', "A somewhat pricey box of round, Zeronian sweets, sold to support the local StarGuide Sector.")
     
     time = portal_object('Timepiece',"An old-fashioned, hourglass-type timepiece. The sand within it glows a golden hue within the gaudy, crystal frame. It seems to glitch in and out of existence, perhaps this odd object might help you get home.")
     fuel = portal_object('Fuel Crystal', "A pretty drab looking stone that was just mined out of the ground, and a major source of energy on Zeron. The miners in Crater Vale hold a lot of pride for these dark rocks, so maybe that's why they're called 'fuel crystals' and not 'fuel rocks.'")
@@ -281,7 +281,7 @@ def main():
         inp = int(input().strip())
 
     print()
-    print('Your vision clears a bit more, you can make out the shape of a fur-covered, light pink, humanoid figure. They pause as they make eye contact with you. Their jet black eyes slowly blink at you before the figure speaks again.')
+    print('Your vision clears a bit more, and you can make out the shape of a fur-covered, light pink, humanoid figure. They pause as they make eye contact with you. Their jet black eyes slowly blink at you before the figure speaks again.')
     print("???: \"Oh, you are an explorer from Copernican Sol III! Perhaps you're more familiar with the term 'Earth'?\"")
     print('>>> What do you want to say?')
     print('1: "You can speak English?"')
@@ -296,7 +296,7 @@ def main():
 
     print()
     print('???: "...Sort of? But, that doesn\'t really matter."')
-    print('"Are you okay? You look like you hit your head pretty hard. Do you even know where you are?"')
+    print('???: "Are you okay? You look like you hit your head pretty hard. Do you even know where you are?"')
     print('>>> What do you want to say?')
     print('1: "What\'s your name?"')
     print('2: "Toto, I\'ve a feeling we\'re not in Kansas anymore..."')
@@ -310,23 +310,58 @@ def main():
         print("Hey! You can't say that! Try Option 1 or 2 or 3 next time.")
         inp = int(input().strip())
     if inp == 1:
-        print('???: Oh, pardon me for not introducing myself sooner! I am called Ozzi. It\'s a pleasure to make your acquaintance!.')
-        print('Ozzi: I take it, though, that you don\'t know where you are? Humans have named this planet "Exoplanet Noctifer-42d," but we call it Zeron.')
+        print('???: "Oh, pardon me for not introducing myself sooner! I am called Ozzi. It\'s a pleasure to make your acquaintance!."')
+        print('Ozzi: "I take it, though, that you don\'t know where you are? Humans have named this planet "Exoplanet Noctifer-42d," but we call it Zeron."')
     elif inp == 2:
-        print('???: ...I\'m afraid I don\'t know what you mean. Perhaps you hit your head harder than I thought...?')
-        print('???: Anyways, I am known as Ozzi, and you are on the planet Zeron.')
+        print('???: "...I\'m afraid I don\'t know what you mean. Perhaps you hit your head harder than I thought...?"')
+        print('???: "Anyways, I am known as Ozzi, and you are on the planet Zeron."')
     else:
-        print('???: This is Zeron, though you may know it as "Exoplanet Noctifer-42d." My name is Ozzi.')
+        print('???: "This is Zeron, though you may know it as "Exoplanet Noctifer-42d." My name is Ozzi."')
 
     # Ozzi blabs about how to get home
-    print()
     print("So, I'm on Zeron and your name is Ozzi?")
     print('Ozzi: "Correct."')
+    print('>>> What do you want to say?')
     print('"How do I get home then?"')
-    print('Ozzi: ""')
-    print('Ozzi: ""')
-    print('Ozzi: ""')
-    print('Ozzi: ""')
+    inp = int(input().strip())
+    try:
+        while inp != 1:
+            print("Hey! You can't say that! Try Option 1 next time.")
+            inp = int(input().strip())
+    except ValueError:
+        print("Hey! You can't say that! Try Option 1 next time.")
+        inp = int(input().strip())
+
+    print('Ozzi: "Well, a portal would probably be the easiest and fastest way home."')
+    print('Ozzi: "Unless, you\'d like to be cryogenically frozen for about 1,764 years... but no one really does that anymore"')
+    print('Ozzi: "Anyways, you\'re in luck! I am one of the Portal Hub\'s resident Portal Mechanics. If you collect a few little parts for me, I can open a portal for you back to Earth!"')
+    print('>>> What do you want to say?')
+    print('1: "Why isn\'t there already a portal to Earth here?"')
+    print('2: "What do I need to collect?"')
+    print('3: "Where can I get something to eat before I start collecting items?"')
+    inp = int(input().strip())
+    try:
+        while inp != 1 and inp != 2 and inp != 3:
+            print("Hey! You can't say that! Try Option 1 or 2 or 3 next time.")
+            inp = int(input().strip())
+    except ValueError:
+        print("Hey! You can't say that! Try Option 1 or 2 or 3 next time.")
+        inp = int(input().strip())
+    if inp == 1:
+        print('Ozzi: "Silly humans, assuming the universe revolves around you! No one here has much interest in Earth besides those far and few who come from that little planet."')
+        print('Ozzi: "Because of that, any portal we have opened to Earth has fallen to disrepair because nobody ever uses it, so we only open one when a human asks to go home."')
+    elif inp == 3:
+        print('Ozzi: "The Storage Pods are your best bet, but they are a bit far from here."')
+        print('Ozzi: "Here, I can lend you a snack or two for the journey there."')
+        print()
+        print('>>> Ozzi gives you a few Space Snacks for your journey.')
+        snackies.pick_up(inventory)
+    else:
+        pass
+    
+    print()
+    print('Ozzi: "In order for me to open a portal to Earth, I need three items: a Timepiece, a Space Skipper, and a Fuel Crystal"')
+    print('Ozzi: "We Zeronians are not fond of currency, so most creatures here will either give the item to you if you ask, or will offer a trade"')
 
     # Ozzi gifts a carburetor... sweet...
     print()
@@ -338,9 +373,9 @@ def main():
         inp = input().strip().lower()
     if inp == 'yes':
         print()
-        print('"Thanks, Ozzi!"')
         carburetor.pick_up(inventory)
         print('>>> Carburetor has been added to your inventory')
+        print('You give Ozzi your thanks.')
     else:
         print()
         print('"...it\'s a carburetor...thaaanks..."')
