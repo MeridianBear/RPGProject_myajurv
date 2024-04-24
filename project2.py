@@ -1,19 +1,10 @@
 '''
-- filled out readme
-- needs 3+ if statement branches
-- needs 3+ while/for loops
-- needs 4+ functioning classes
-    - at least one class must inherit from another
-    - needs 10+ functioning methods
 - needs at least one input/output file -> output log (summary of game events)
-- game title, navigable map (or similar), items/characters to interact with
 - persistent states (e.g. if you pick up an item it's not there later)
 '''
-# FIX LIST:
-# make it so that user HAS to input a correct value before moving on
 
 # time worked:
-# 5:45 hours
+# 6:30 hours
 
 ''' functions '''
 # The Portal Hub

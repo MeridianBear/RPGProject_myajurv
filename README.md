@@ -1,4 +1,4 @@
-# RPGProject_myajurv
+# HOMEBOUND - Text-Based RPG
 
 Welcome, Space Cadet!
 
@@ -10,4 +10,4 @@ to open a portal back to your home planet.
 
 Happy adventuring, Space Cadet, and good luck!
 
-DISCLAIMER: If you're a little silly goose who wants to mess with the program by typing stuff you shouldn't be when you're prompted for input, get back to your lame little pond. This game is for people who follow directions. <3
+DISCLAIMER: If you're a little silly goose who wants to type stuff they shouldn't when they're prompted for input, get back to your lame little pond. This game is for people who follow directions. <3
