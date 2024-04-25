@@ -7,7 +7,7 @@ Lab Section:    001
 
 CODE DESCRIPTION: A text-based RPG, see README
 
-Links to GitHub, I hope:
+At least one working link to GitHub, I hope:
 https://github.com/MeridianBear/RPGProject_myajurv
 https://github.com/MeridianBear/RPGProject_myajurv.git
 
@@ -73,7 +73,7 @@ def portal_hub(inventory, has_t, has_f, has_s):
 
 # The Portal Hub, ending
 def return_home():
-    print('YIPPEE!')
+    pass
 
 # The Crater Vale Asteroid Mines
 def crater_vale(inventory, has_t, has_f, has_s):
@@ -214,40 +214,48 @@ class portal:
 
 # output_log
 class output_log:
-    def add(self, log):
-        log.append()
-        return log
+    def create_log(self, log):
+        self.log = log
     
-    def print_log(self, log):
-        pass
-        # print out log in adventure_log.txt file
+    def add(self, text):
+        self.log.append(text)
+
+    def print_log(self):
+        for item in self.log:
+            print(item)
+
+
 
 # define main program
 def main():
     # initialize game variables and import time functions
     import time
-    game_over = False
     has_t = False
     has_s = False
     has_f = False
     inventory = []
     log = []
     game_log = output_log()
-
+    game_log.create_log(log)
+    
     # initialize game objects
     timep = portal_object('Timepiece',"An old-fashioned, hourglass-type timepiece. The sand within it glows a golden hue within the gaudy, crystal frame. It seems to glitch in and out of existence, perhaps this odd object might help you get home.")
     fuel = portal_object('Fuel Crystal', "A pretty drab looking stone that was just mined out of the ground, and a major source of energy on Zeron. The miners in Crater Vale hold a lot of pride for these dark rocks, so maybe that's why they're called 'fuel crystals' and not 'fuel rocks.'")
     space = portal_object('Space Skipper', "It's pretty obvious that this was named by someone who thinks the concept of teleportation is lame. I can't believe they allow children to have these.")
 
-    # pre-game: obtain confirm player username
+    # pre-game: obtain and confirm player username
     print()
     print()
+
     # ask player for username and take input
     print('Welcome Space Cadet!')
+
+    # all instances of time.sleep(seconds to pause) in this program are used to make the terminal experience better for the player
     time.sleep(1)
     print('What is your name? Please keep in mind that this will be stored in your Adventurer\'s Log and will be how you are referred to throughout the game.')
     player = input().strip()
     print()
+
     # confirm with player using player feedback and user validation
     print(f'Are you certain that "{player}" is the name you would like to go by?')
     y_n = input().strip().lower()
@@ -257,34 +265,40 @@ def main():
     if y_n == 'no':
         print('What would you like us to call you then?')
         player = input().strip()
-
     print()
     print(f'Perfect! You\'re all set to go Space Cadet {player}! Happy Adventuring!')
     time.sleep(2)
 
-    # intro to game - Portal Hub - only runs once, is most of the program under "main"
-    # A character introduces you to your objective via dialogue and user response (with very basic data validation)
+    # intro to game: Portal Hub - only runs once, is most of the actual program under "__main__"
+    # A character introduces you to your objective via dialogue and player response (with very basic data validation)
     print()
     print()
-    # let user begin game
+
+    # have user begin game when they're ready
     print('>>> Type "Start" to begin game')
     start = input().strip().lower()
+
+    # while user does not type "Start," remind player to start when they're ready
     while start != 'start':
         print()
         print('>>> Type "Start" whenever you\'re ready to play.')
-    print()
-    time.sleep(1)
-    print()
-    time.sleep(1)
+
+    # add username to log
+    game_log.add(f"Space Cadet {player}'s Adventurer's Log:")
+
     # once user has started, play out the opening act of the game
+    print()
+    time.sleep(1)
+    print()
+    time.sleep(1)
     print('You slowly blink your eyes open and wince at the sudden throbbing in the back of your skull.')
-    # all instances of time.sleep(seconds to pause) in this program all used to make the terminal experience better for the player by letting them see when new text is printed
     time.sleep(2)
     print('As blinding darkness gives way to blinding light, you hear the sound of someone speaking becoming clearer and clearer over the pulsing in your head.')
     time.sleep(2.5)
     print("You can't quite make out the language, but it seems that whoever is speaking is desperately trying to get your attention.")
     time.sleep(2)
 
+    # offer player response options and validate input
     print()
     print('>>> What do you want to say?')
     time.sleep(1)
@@ -295,6 +309,7 @@ def main():
     print('3: "OUCH!"')
     time.sleep(1)
     inp = int(input().strip())
+
     # all instances of try/except in this program are meant to catch a user if they mistakenly type a non-numerical value, once
     try:
         while inp != 1 and inp != 2 and inp != 3:
@@ -306,16 +321,19 @@ def main():
         print(">>> Hey! You can't say that! Try Option 1 or 2 or 3 next time.")
         inp = int(input().strip())
 
+    # continue text
     print()
     print('Your vision clears a bit more, and you can make out the shape of a fur-covered, light pink, humanoid figure.')
     print('They pause as they make eye contact with you. Their jet black eyes slowly blink at you before they speak again.')
     time.sleep(3.5)
-    print("???: \"Oh, you are an explorer from Copernican Sol III! Perhaps you're more familiar with the term 'Earth'?\"")
+    print("???: \"Oh, you must be an explorer from Copernican Sol III! Perhaps you're more familiar with the term 'Earth'?\"")
     time.sleep(2)
     print(f'{player}: "I... think so? What happened?"')
     time.sleep(2)
     print('???: "You look like you hit your head pretty hard when you came through that portal. Are you okay? Do you even know where you are?"')
     time.sleep(2)
+
+    # offer user response options and validate user input
     print()
     print('>>> What do you want to say?')
     time.sleep(1)
@@ -333,6 +351,8 @@ def main():
         print("Hey! You can't say that! Try Option 1 or 2 or 3 next time.")
         inp = int(input().strip())
     print()
+
+    # depending on what the user says, change the dialogue displayed in the terminal
     if inp == 1:
         print('???: "Oh, pardon me for not introducing myself sooner! I am called Ozzi. It\'s a pleasure to make your acquaintance!"')
         time.sleep(2)
@@ -347,6 +367,10 @@ def main():
         print('???: "This is Zeron, though you may know it as "Exoplanet Noctifer-42d." My name is Ozzi."')
         time.sleep(2)
 
+    # add meeting Ozzi to log
+    game_log.add(f'{player} meets Ozzi and discovers that they have mistakenly arrived on to the planet Zeron.')
+
+    # continue text
     print(f'{player}: "So, I\'m on Zeron and your name is Ozzi?"')
     time.sleep(2)
     print('Ozzi: "Correct."')
@@ -356,9 +380,11 @@ def main():
     time.sleep(2)
     print('Ozzi: "Unless, you\'d like to be cryogenically frozen for about 1,764 years... but no one really does that anymore"')
     time.sleep(3)
-    print('Ozzi: "Anyways, you\'re in luck! I am one of the Portal Hub\'s resident Portal Mechanics. If you collect a few, little parts for me, I can open a portal for you back to Earth!"')
+    print('Ozzi: "Anyways, you\'re in luck! I am one of the Portal Hub\'s resident Portal Mechanics. If you collect a few little parts for me, I can open a portal for you back to Earth!"')
     time.sleep(3)
     print()
+
+    # take and validate user input for dialogue
     print('>>> What do you want to say?')
     time.sleep(1)
     print('1: "Why isn\'t there already a portal to Earth here?"')
@@ -381,7 +407,10 @@ def main():
         time.sleep(3)
         print('Ozzi: "Because of that, any portal we have opened to Earth has fallen to disrepair because nobody ever uses it, so we only open one when a human asks to go home."')
         time.sleep(3)
-    
+        # add having audacity to log
+        game_log.add(f'{player} talks to Ozzi and discovers that human are *not* the center of the universe.')
+
+    # continue dialogue until intro portion of game is over
     print('Ozzi: "In order for me to open a new portal to Earth, I will need three items: a Timepiece, a Space Skipper, and a Fuel Crystal."')
     time.sleep(3)
     print('Ozzi: "We Zeronians are not fond of currency, so if you ask around, most on this planet will either give the item to you, or will offer you a trade for it."')
@@ -393,11 +422,14 @@ def main():
     print('Ozzi: "Go on, now. I have much to do if I want to prepare that pile of rocks to take you home. Make sure to come back here once you\'re ready to go."')
     time.sleep(3)
 
-    # ask player where they want to go next
+    # add learning objective to log
+    game_log.add(f'{player} learns how to get home to Earth.')
+
+    # ask player where they want to go from the start location
     print()
     print()
     print('>>> It\'s time to find your way home, Space Cadet, where do you want to begin?')
-    time.sleep(1)
+    time.sleep(2)
     print('1: The Crater Vale Asteroid Mines')
     time.sleep(1)
     print('2: Sifter\'s Stack')
@@ -416,22 +448,16 @@ def main():
         inp = int(input().strip())
     print()
 
-    timep.pick_up(inventory)
-    space.pick_up(inventory)
-    fuel.pick_up(inventory)
-    # run selected location function, game continues from here within the functions defined above the main program
+    # run player-selected location via location function, add first location to game log, and continue game from within the functions defined above the main program
     if inp == 1:
-        crater_vale(inventory, timep, fuel, space)
+        crater_vale(inventory, has_t, has_f, has_s)
+        game_log.add(f'{player} decides to go to the Crater Vale Asteroid Mines first.')
     elif inp == 2:
-        sifters(inventory, timep, fuel, space)
+        sifters(inventory, has_t, has_f, has_s)
+        game_log.add(f'{player} decides to go to Sifter\'s Stack first.')
     elif inp == 3:
-        dock_deck(inventory, timep, fuel, space)
-
-    # return to portal hub once all 3 parts are found
-    
-    # if user is at portal hub AND has all three portal items AND wants to open portal:
-        # open portal home
-        # run end game dialogue
+        dock_deck(inventory, has_t, has_f, has_s)
+        game_log.add(f"{player} decides to go to Sid's Shuttle 'n Spacecraft Dockin' Deck first.")
 
 if __name__ == "__main__":
     main()
