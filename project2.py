@@ -27,6 +27,8 @@ items to complete:
     - confirm that program works
 
 '''
+# import time functions
+import time
 
 ''' functions '''
 # check if player has all 3 portal items
@@ -39,15 +41,32 @@ def check(inventory, has_t, has_f, has_s):
         return checked
 
 # The Portal Hub
-def portal_hub(inventory, has_t, has_f, has_s):
+def portal_hub(inventory, has_t, has_f, has_s, player):
     # check if player can end game,
     x = check(inventory, has_t, has_f, has_s)
     # if they can, begin end game procedures
     if x == True:
-        return_home()
+        return_home(note, timep, fuel, space, player)
     
     # otherwise, run the items for this section
-
+    print()
+    print('Ozzi: "You\'re back already? Do you have all of the parts I need yet?"')
+    time.sleep(2)
+    print(f'{player}: "Not yet, what am I missing?"')
+    time.sleep(1)
+    if has_t == False:
+        print('Ozzi: "You\'re missing a Timepiece. Try looking for it in Sifter\'s Stack."')
+        time.sleep(2)
+    if has_f == False:
+        print('Ozzi: "You\'re missing a Fuel Crystal. Try looking for it in the Crater Vale Asteroid Mines."')
+        time.sleep(2)
+    if has_s == False:
+        print('Ozzi: "You\'re missing a Space Skipper. Try looking for it in Sid\'s Docking Deck."')
+        time.sleep(2)
+    print(f'{player}: "Thanks for the tip, Ozzi! I\'ll see you again when I have all of the parts you need, or if I need help again."')
+    time.sleep(2)
+    print('Ozzi: "Of course! I\'ll be right here if you need anything."')
+    time.sleep(2)
 
     # continue game and ask player where they want to go next
     print()
@@ -65,18 +84,21 @@ def portal_hub(inventory, has_t, has_f, has_s):
         inp = int(input().strip())
     # run location functions as user picks where they want to go next
     if inp == 1:
-        crater_vale(inventory, has_t, has_f, has_s)
+        crater_vale(inventory, has_t, has_f, has_s, player)
     elif inp == 2:
-        sifters(inventory, has_t, has_f, has_s)
+        sifters(inventory, has_t, has_f, has_s, player)
     elif inp == 3:
-        dock_deck(inventory, has_t, has_f, has_s)
+        dock_deck(inventory, has_t, has_f, has_s, player)
 
 # The Portal Hub, ending
-def return_home():
+def return_home(note, timep, fuel, space, player):
+    # run end game dialogue
+    # get note from Ozzi (object already defined)
+    # put log into new file
     pass
 
 # The Crater Vale Asteroid Mines
-def crater_vale(inventory, has_t, has_f, has_s):
+def crater_vale(inventory, has_t, has_f, has_s, player):
     # run the items for this section
     
     # check if player can end game
@@ -102,14 +124,14 @@ def crater_vale(inventory, has_t, has_f, has_s):
         inp = int(input().strip())
     # run location functions as user picks where they want to go next
     if inp == 1:
-        portal_hub(inventory, has_t, has_f, has_s)
+        portal_hub(inventory, has_t, has_f, has_s, player)
     elif inp == 2:
-        sifters(inventory, has_t, has_f, has_s)
+        sifters(inventory, has_t, has_f, has_s, player)
     elif inp == 3:
-        dock_deck(inventory, has_t, has_f, has_s)
+        dock_deck(inventory, has_t, has_f, has_s, player)
 
 # Sifter's Stack
-def sifters(inventory, has_t, has_f, has_s):
+def sifters(inventory, has_t, has_f, has_s, player):
     # run the items for this section
     
     # check if player can end game
@@ -135,14 +157,14 @@ def sifters(inventory, has_t, has_f, has_s):
         inp = int(input().strip())
     # run location functions as user picks where they want to go next
     if inp == 1:
-        crater_vale(inventory, has_t, has_f, has_s)
+        crater_vale(inventory, has_t, has_f, has_s, player)
     elif inp == 2:
-        portal_hub(inventory, has_t, has_f, has_s)
+        portal_hub(inventory, has_t, has_f, has_s, player)
     elif inp == 3:
-        dock_deck(inventory, has_t, has_f, has_s)
+        dock_deck(inventory, has_t, has_f, has_s, player)
 
 # Sid's Shuttle 'n Spacecraft Dockin' Deck
-def dock_deck(inventory, has_t, has_f, has_s):
+def dock_deck(inventory, has_t, has_f, has_s, player):
     # run the items for this section
     
     # check if player can end game
@@ -168,11 +190,11 @@ def dock_deck(inventory, has_t, has_f, has_s):
         inp = int(input().strip())
     # run location functions as user picks where they want to go next
     if inp == 1:
-        crater_vale(inventory, has_t, has_f, has_s)
+        crater_vale(inventory, has_t, has_f, has_s, player)
     elif inp == 2:
-        sifters(inventory, has_t, has_f, has_s)
+        sifters(inventory, has_t, has_f, has_s, player)
     elif inp == 3:
-        portal_hub(inventory, has_t, has_f, has_s)
+        portal_hub(inventory, has_t, has_f, has_s, player)
 
 ''' classes '''
 # object
@@ -191,9 +213,6 @@ class objects:
         inventory.append(self.name)
         return inventory
 
-    def discard(self, inventory):
-        inventory.remove(self.name)
-        return inventory
 
 # portal_object
 class portal_object(objects):
@@ -228,8 +247,7 @@ class output_log:
 
 # define main program
 def main():
-    # initialize game variables and import time functions
-    import time
+    # initialize game variables
     has_t = False
     has_s = False
     has_f = False
@@ -239,6 +257,7 @@ def main():
     game_log.create_log(log)
     
     # initialize game objects
+    note = objects('Note from Ozzi',"A heartfelt note from the furry, pink guy you met on Zeron. You are beyond grateful for his help to get you home.")
     timep = portal_object('Timepiece',"An old-fashioned, hourglass-type timepiece. The sand within it glows a golden hue within the gaudy, crystal frame. It seems to glitch in and out of existence, perhaps this odd object might help you get home.")
     fuel = portal_object('Fuel Crystal', "A pretty drab looking stone that was just mined out of the ground, and a major source of energy on Zeron. The miners in Crater Vale hold a lot of pride for these dark rocks, so maybe that's why they're called 'fuel crystals' and not 'fuel rocks.'")
     space = portal_object('Space Skipper', "It's pretty obvious that this was named by someone who thinks the concept of teleportation is lame. I can't believe they allow children to have these.")
@@ -268,7 +287,7 @@ def main():
     print()
     print(f'Perfect! You\'re all set to go Space Cadet {player}! Happy Adventuring!')
     time.sleep(2)
-
+    
     # intro to game: Portal Hub - only runs once, is most of the actual program under "__main__"
     # A character introduces you to your objective via dialogue and player response (with very basic data validation)
     print()
@@ -310,7 +329,7 @@ def main():
     time.sleep(1)
     inp = int(input().strip())
 
-    # all instances of try/except in this program are meant to catch a user if they mistakenly type a non-numerical value, once
+    # all instances of try/except in this program are meant to catch a user the first time they type a non-numerical value
     try:
         while inp != 1 and inp != 2 and inp != 3:
             print()
@@ -378,7 +397,7 @@ def main():
     print(f'{player}: "How do I get home, then?"')
     print('Ozzi: "Well, a portal would probably be the easiest and fastest way home."')
     time.sleep(2)
-    print('Ozzi: "Unless, you\'d like to be cryogenically frozen for about 1,764 years... but no one really does that anymore"')
+    print('Ozzi: "Unless you\'d like to be cryogenically frozen for about 1,764 years... but no one really does that anymore"')
     time.sleep(3)
     print('Ozzi: "Anyways, you\'re in luck! I am one of the Portal Hub\'s resident Portal Mechanics. If you collect a few little parts for me, I can open a portal for you back to Earth!"')
     time.sleep(3)
@@ -412,19 +431,19 @@ def main():
 
     # continue dialogue until intro portion of game is over
     print('Ozzi: "In order for me to open a new portal to Earth, I will need three items: a Timepiece, a Space Skipper, and a Fuel Crystal."')
-    time.sleep(3)
+    time.sleep(2)
     print('Ozzi: "We Zeronians are not fond of currency, so if you ask around, most on this planet will either give the item to you, or will offer you a trade for it."')
     time.sleep(3)
     print('Ozzi: "Just make your way around some of the more populated areas of the planet, and I\'m sure you\'ll be able to collect all three of those items in no time!"')
     time.sleep(3)
     print('Ozzi: "Here, I\'ll mark a few spots where you should have some luck."')
-    time.sleep(3)
+    time.sleep(2)
     print('Ozzi: "Go on, now. I have much to do if I want to prepare that pile of rocks to take you home. Make sure to come back here once you\'re ready to go."')
     time.sleep(3)
 
     # add learning objective to log
     game_log.add(f'{player} learns how to get home to Earth.')
-
+    
     # ask player where they want to go from the start location
     print()
     print()
@@ -450,13 +469,13 @@ def main():
 
     # run player-selected location via location function, add first location to game log, and continue game from within the functions defined above the main program
     if inp == 1:
-        crater_vale(inventory, has_t, has_f, has_s)
+        crater_vale(inventory, has_t, has_f, has_s, player)
         game_log.add(f'{player} decides to go to the Crater Vale Asteroid Mines first.')
     elif inp == 2:
-        sifters(inventory, has_t, has_f, has_s)
+        sifters(inventory, has_t, has_f, has_s, player)
         game_log.add(f'{player} decides to go to Sifter\'s Stack first.')
     elif inp == 3:
-        dock_deck(inventory, has_t, has_f, has_s)
+        dock_deck(inventory, has_t, has_f, has_s, player)
         game_log.add(f"{player} decides to go to Sid's Shuttle 'n Spacecraft Dockin' Deck first.")
 
 if __name__ == "__main__":
