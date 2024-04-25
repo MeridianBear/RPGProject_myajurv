@@ -12,7 +12,7 @@ https://github.com/MeridianBear/RPGProject_myajurv
 https://github.com/MeridianBear/RPGProject_myajurv.git
 
 time worked:
-    10:45 hours
+    11:45 hours
 
 items to complete:
     - output log
@@ -21,7 +21,6 @@ items to complete:
     - location functions
         - update dialogue and characters
         - use classes and methods
-        - update item existence both in location and in inventory (persistent states)
         - end game function
     - comments throughout all sections
     - confirm that program works
@@ -32,18 +31,22 @@ import time
 
 ''' functions '''
 # check if player has all 3 portal items
-def check(inventory, has_t, has_f, has_s):
-    # initialize checked bool
-    checked = False
-    # if player has all 3 needed portal items, return checked as True
-    if has_t == True and has_f == True and has_s == True:
-        checked = True
-        return checked
-
+def check(inventory, timep, fuel, space):
+    # initialize checked count and all_3 bool
+    checked = 0
+    all_3 = False
+    # if player has all 3 needed portal items, return True
+    for item in inventory:
+        if item == (timep or fuel or space):
+            checked += 1
+    if checked == 3:
+        all_3 = True
+    return all_3
+        
 # The Portal Hub
-def portal_hub(inventory, has_t, has_f, has_s, player):
+def portal_hub(inventory, timep, fuel, space, player, game_log):
     # check if player can end game,
-    x = check(inventory, has_t, has_f, has_s)
+    x = check(inventory, timep, fuel, space)
     # if they can, begin end game procedures
     if x == True:
         return_home(note, timep, fuel, space, player)
@@ -54,13 +57,13 @@ def portal_hub(inventory, has_t, has_f, has_s, player):
     time.sleep(2)
     print(f'{player}: "Not yet, what am I missing?"')
     time.sleep(1)
-    if has_t == False:
+    if timep not in inventory:
         print('Ozzi: "You\'re missing a Timepiece. Try looking for it in Sifter\'s Stack."')
         time.sleep(2)
-    if has_f == False:
+    if fuel not in inventory:
         print('Ozzi: "You\'re missing a Fuel Crystal. Try looking for it in the Crater Vale Asteroid Mines."')
         time.sleep(2)
-    if has_s == False:
+    if space not in inventory:
         print('Ozzi: "You\'re missing a Space Skipper. Try looking for it in Sid\'s Docking Deck."')
         time.sleep(2)
     print(f'{player}: "Thanks for the tip, Ozzi! I\'ll see you again when I have all of the parts you need, or if I need help again."')
@@ -84,65 +87,68 @@ def portal_hub(inventory, has_t, has_f, has_s, player):
         inp = int(input().strip())
     # run location functions as user picks where they want to go next
     if inp == 1:
-        crater_vale(inventory, has_t, has_f, has_s, player)
+        crater_vale(inventory, timep, fuel, space, player, game_log)
     elif inp == 2:
-        sifters(inventory, has_t, has_f, has_s, player)
+        sifters(inventory, timep, fuel, space, player, game_log)
     elif inp == 3:
-        dock_deck(inventory, has_t, has_f, has_s, player)
+        dock_deck(inventory, timep, fuel, space, player, game_log)
 
 # The Portal Hub, ending
-def return_home(note, timep, fuel, space, player):
+def return_home(note, timep, fuel, space, player, game_log):
+    # add collecting all three items to log
+    game_log.add(f"{player} obtained all 3 portal items, and went back to the Portal Hub to see Ozzi.")
+
     # run end game dialogue
     # get note from Ozzi (object already defined)
     # put log into new file
     pass
 
 # The Crater Vale Asteroid Mines
-def crater_vale(inventory, has_t, has_f, has_s, player):
-
-    # initialize game object
-    fuel = portal_object('Fuel Crystal', "A pretty drab looking stone that was just mined out of the ground, and a major source of energy on Zeron. The miners in Crater Vale hold a lot of pride for these dark rocks, so maybe that's why they're called 'fuel crystals' and not 'fuel rocks.'")
-
-    if has_f == False:
+def crater_vale(inventory, timep, fuel, space, player, game_log):
+    if fuel not in inventory:
         # exposition for this area if you have not obtained fuel crystal
         print('You walk into a bustling mining town, with all sorts of lifts and machinery moving around, and see Zeronians that look like buff Ozzis, each with fur of a different hue.')
-        time.sleep(3)
+        time.sleep(4)
         print('As you think to yourself that this must be where Ozzi is from, you hear a gruff snort come from right behind you.')
-        time.sleep(2)
+        time.sleep(3)
         print('You turn around and face a blue Zeronian that is about twice your height, and with muscles large enough to scare a boulder into spliting in half.')
         time.sleep(3)
         print('He leans down to make eye contact before speaking.')
-        time.sleep(1)
+        time.sleep(2)
         print('???: "How good are you at... arithmetic?"')
         time.sleep(2)
         print(f'{player}: "Huh? I mean... I\'m alright at it."')
         time.sleep(2)
         print('???: "Ah, I\'m sorry, I was getting ahead of myself. My name is Gerack, and I do not know arithmetic."')
         time.sleep(2)
-        print('Gerack: "However, my sweet, little girl, Mais, is struggling with her homework. I\'m looking for someone who can help me understand what she is learning."')
-        time.sleep(3)
+
+        # add meeting Gerack to log before continuing dialogue
+        game_log.add(f"{player} met Gerack in the Crater Vale Asteroid Mines.")
+
+        print('Gerack: "However, my sweet little girl, Mais, is struggling with her homework. I\'m looking for someone who can help me understand what she is learning."')
+        time.sleep(4)
         print('Gerack pauses before sputtering out another sentence.')
-        time.sleep(2)
+        time.sleep(3)
         print('Gerack: "O-Of course, I can compensate you for it, if needed."')
-        time.sleep(2)
+        time.sleep(3)
         print('Despite his somewhat scary appearance, he seems rather sweet. So you explain your situation to him, and ask if he would be able to procure an item for you.')
-        time.sleep(3)
-        print('Gerack: "Oh, you need a time crystal? Hmm... We should have a few left from our last expedition. I believe that one should be enough for a portal to Earth."')
-        time.sleep(3)
+        time.sleep(4)
+        print('Gerack: "Oh, you need a fuel crystal? Hmm... We should have a few left from our last expedition. I believe that one should be enough for a portal to Earth."')
+        time.sleep(4)
         print(f'{player}: "Sounds good! Do you have any example problems we can work through?"')
-        time.sleep(2)
+        time.sleep(3)
         print('He pulls out a stack of about 30 sheets from the bag slung on his shoulder.')
-        time.sleep(2)
+        time.sleep(3)
         print('Gerack: "I believe this is more than enough?"')
-        time.sleep(1)
-        print('You two go to a nearby picnic table and take a seat.')
-        time.sleep(1)
-        print('You begin explaining how to add and subtract by counting on your fingers, and his eyes light up as he begins to make progress.')
         time.sleep(2)
+        print('You two go to a nearby picnic table and take a seat.')
+        time.sleep(2)
+        print('You begin explaining how to add and subtract by counting on your fingers, and his eyes light up as he begins to make progress.')
+        time.sleep(3)
 
         # user answers basic arithmetic questions, and the input is validated
         print()
-        print('>>> Answer the following questions correctly, and you will obtain a Fuel Crystal from Gerack.')
+        print('>>> Answer the following questions correctly to help Gerack understand the material, and you will obtain a Fuel Crystal from him.')
         time.sleep(2)
         print()
         print('What is 36 + 41?')
@@ -197,23 +203,29 @@ def crater_vale(inventory, has_t, has_f, has_s, player):
         # once the math is done, you talk to Gerack and obtain a fuel crystal
         print()
         print('After working through many, many problems, it seems that he finally has a grasp on how to complete them.')
-        time.sleep(2)
+        time.sleep(3)
         print('Gerack: "I think I understand how to solve it now... Once my daughter returns from school, I\'ll be able to help her with her homework."')
         time.sleep(3)
         print('You see Gerack get a little misty-eyed at the thought, and politely avert your eyes.')
         time.sleep(2)
-        print('Gerack: "As promised, here is a Fuel Crystal."')
-        time.sleep(1)
+        print('He shakes off his thoughts and goes to a nearby minecart. He picks up what looks to be a stone from it and returns to you.')
+        time.sleep(3)
+        print('Gerack: "As promised for your help, here is a Fuel Crystal."')
+        time.sleep(2)
         # fuel crystal is added to your inventory
         print('>>> Gerack hands you a large, obsidian-like stone, and you place it in your bag.')
         fuel.pick_up(inventory)
-        has_f == True
+
+        # add helping Gerack and obtaining a fuel crystal to log
+        game_log.add(f"{player} helped Gerack learn arithmetic for his daughter.")
+        game_log.add(f"{player} obtained a {fuel.get_name()}: {fuel.get_description()}")
+
         time.sleep(2)
         print('Gerack: "Thank you for your help, Adventurer."')
-        time.sleep(1)
+        time.sleep(2)
         print(f'{player}: "Of course, thank you for the fuel crystal, Gerack."')
         time.sleep(2)
-        print('You bid each other goodbye, and head to your next destination.')
+        print('You bid each other goodbye, and you head to your next destination.')
         time.sleep(2)
 
     # if player has already received a fuel crystal from Gerack,
@@ -223,9 +235,11 @@ def crater_vale(inventory, has_t, has_f, has_s, player):
         time.sleep(2)
         print('There isn\'t much else for you to do here, so you decide to head somewhere else.')
         time.sleep(2)
+        # add revisiting Gerack to log
+        game_log.add(f"{player} went back to the Crater Vale Asteroid Mines and saw Gerack helping his daughter with homework.")
 
     # check if player can end game
-    x = check(inventory, has_t, has_f, has_s)
+    x = check(inventory, timep, fuel, space)
     # if they can, begin end game procedures
     if x == True:
         print()
@@ -247,21 +261,130 @@ def crater_vale(inventory, has_t, has_f, has_s, player):
         inp = int(input().strip())
     # run location functions as user picks where they want to go next
     if inp == 1:
-        portal_hub(inventory, has_t, has_f, has_s, player)
+        portal_hub(inventory, timep, fuel, space, player, game_log)
     elif inp == 2:
-        sifters(inventory, has_t, has_f, has_s, player)
+        sifters(inventory, timep, fuel, space, player, game_log)
     elif inp == 3:
-        dock_deck(inventory, has_t, has_f, has_s, player)
+        dock_deck(inventory, timep, fuel, space, player, game_log)
 
 # Sifter's Stack
-def sifters(inventory, has_t, has_f, has_s, player):
-    # initialize game object
-    timep = portal_object('Timepiece',"An old-fashioned, hourglass-type timepiece. The sand within it glows a golden hue within the gaudy, crystal frame. It seems to glitch in and out of existence, perhaps this odd object might help you get home.")
+def sifters(inventory, timep, fuel, space, player, game_log):
+    if time not in inventory:
+    # exposition for this area if you have not obtained timepiece
+        print('')
+        time.sleep(2)
 
-    # run the items for this section
-    
+        # add meeting Ani to log before continuing dialogue
+        game_log.add(f"{player} met Ani in Sifter's Stack.")
+
+        print('')
+        time.sleep(2)
+
+        # user answers basic questions from a letter for Ani to obtain a Timepiece
+        print()
+        print('text from a letter')
+        print()
+        print('>>> Answer the following questions correctly to help Ani understand the text, and you will obtain a Timepiece from her.')
+        time.sleep(2)
+        print()
+        print('Question')
+        print('1: Answer choice')
+        print('2: Answer choice')
+        print('3: Answer choice')
+        print('4: Answer choice')
+        answer = int(input().strip())
+        while answer != 1:
+            print()
+            print('That doesn\'t seem quite right. Try again.')
+            time.sleep(1)
+            print('Question')
+            answer = int(input().strip())
+        
+        print()
+        print('Question')
+        print('1: Answer choice')
+        print('2: Answer choice')
+        print('3: Answer choice')
+        print('4: Answer choice')
+        answer = int(input().strip())
+        while answer != 1:
+            print()
+            print('That doesn\'t seem quite right. Try again.')
+            time.sleep(1)
+            print('Question')
+            answer = int(input().strip())
+
+        print()
+        print('Question')
+        print('1: Answer choice')
+        print('2: Answer choice')
+        print('3: Answer choice')
+        print('4: Answer choice')
+        answer = int(input().strip())
+        while answer != 1:
+            print()
+            print('That doesn\'t seem quite right. Try again.')
+            time.sleep(1)
+            print('Question')
+            answer = int(input().strip())
+
+        print()
+        print('Question')
+        print('1: Answer choice')
+        print('2: Answer choice')
+        print('3: Answer choice')
+        print('4: Answer choice')
+        answer = int(input().strip())
+        while answer != 1:
+            print()
+            print('That doesn\'t seem quite right. Try again.')
+            time.sleep(1)
+            print('Question')
+            answer = int(input().strip())
+
+        print()
+        print('Question')
+        print('1: Answer choice')
+        print('2: Answer choice')
+        print('3: Answer choice')
+        print('4: Answer choice')
+        answer = int(input().strip())
+        while answer != 1:
+            print()
+            print('That doesn\'t seem quite right. Try again.')
+            time.sleep(1)
+            print('Question')
+            answer = int(input().strip())
+
+        
+        # once the reading is done, you talk to Ani and obtain a timepiece
+        print()
+        print('')
+        time.sleep(2)
+        # timepiece is added to your inventory
+        print('>>> Ani carefully places a glowing, translucent hourglass into your bag.')
+        timep.pick_up(inventory)
+
+        # add helping Gerack and obtaining a fuel crystal to log
+        game_log.add(f"{player} helped Ani read a letter from her friend.")
+        game_log.add(f"{player} obtained a {timep.get_name()}: {timep.get_description()}")
+
+        time.sleep(2)
+        print('')
+        time.sleep(2)
+
+    # if player has already received a fuel crystal from Gerack,
+    else:
+    # find somewhere else to go
+        print('You see Ani happily rereading the letter out loud, by herself this time.')
+        time.sleep(2)
+        print('There isn\'t much else for you to do here, so you decide to head somewhere else.')
+        time.sleep(2)
+        # add revisiting Gerack to log
+        game_log.add(f"{player} went back to Sifter's Stack and saw Ani reading her letter again.")
+
     # check if player can end game
-    x = check(inventory, has_t, has_f, has_s)
+    x = check(inventory, timep, fuel, space)
     # if they can, begin end game procedures
     if x == True:
         print()
@@ -283,21 +406,51 @@ def sifters(inventory, has_t, has_f, has_s, player):
         inp = int(input().strip())
     # run location functions as user picks where they want to go next
     if inp == 1:
-        crater_vale(inventory, has_t, has_f, has_s, player)
+        crater_vale(inventory, timep, fuel, space, player, game_log)
     elif inp == 2:
-        portal_hub(inventory, has_t, has_f, has_s, player)
+        portal_hub(inventory, timep, fuel, space, player, game_log)
     elif inp == 3:
-        dock_deck(inventory, has_t, has_f, has_s, player)
+        dock_deck(inventory, timep, fuel, space, player, game_log)
 
 # Sid's Shuttle 'n Spacecraft Dockin' Deck
-def dock_deck(inventory, has_t, has_f, has_s, player):
-    # initialize game objects
-    space = portal_object('Space Skipper', "It's pretty obvious that this was named by someone who thinks the concept of teleportation is lame. I can't believe they allow children to have these.")
+def dock_deck(inventory, timep, fuel, space, player, game_log):
+    if space not in inventory:
+    # exposition for this area if you have not obtained space skipper
+        print('')
+        time.sleep(2)
 
-    # run the items for this section
-    
+        # add meeting Sid to log
+        game_log.add(f"{player} met Sid in Sid's Shuttle 'n Spacecraft Dockin' Dec.")
+
+        # Player talks to Sid and obtains space skipper
+        print('')
+        time.sleep(2)
+
+        # space skipper is added to your inventory
+        print('>>> Sid haphazardly tosses a cylidrical object at you. You manage to catch it, and tuck it away in your bag.')
+        space.pick_up(inventory)
+
+        # add talking to Sid and obtaining a space skipper to log
+        game_log.add(f"{player} talked to Sid about life on Earth.")
+        game_log.add(f"{player} obtained a {space.get_name()}: {space.get_description()}")
+
+        # wish Sid farewell
+        time.sleep(2)
+        print('')
+        time.sleep(2)
+
+    # if player has already received a space skipper from Sid,
+    else:
+    # find somewhere else to go
+        print('Sid waves at you before going back to fixing something on a shuttle.')
+        time.sleep(2)
+        print('There isn\'t much else for you to do here, so you decide to head somewhere else.')
+        time.sleep(2)
+        # add revisiting Gerack to log
+        game_log.add(f"{player} went back to Sid's Shuttle 'n Spacecraft Dockin' Deck and saw Sid fixing a part of a shuttle.")
+
     # check if player can end game
-    x = check(inventory, has_t, has_f, has_s)
+    x = check(inventory, timep, fuel, space)
     # if they can, begin end game procedures
     if x == True:
         print()
@@ -319,11 +472,11 @@ def dock_deck(inventory, has_t, has_f, has_s, player):
         inp = int(input().strip())
     # run location functions as user picks where they want to go next
     if inp == 1:
-        crater_vale(inventory, has_t, has_f, has_s, player)
+        crater_vale(inventory, timep, fuel, space, player, game_log)
     elif inp == 2:
-        sifters(inventory, has_t, has_f, has_s, player)
+        sifters(inventory, timep, fuel, space, player, game_log)
     elif inp == 3:
-        portal_hub(inventory, has_t, has_f, has_s, player)
+        portal_hub(inventory, timep, fuel, space, player, game_log)
 
 ''' classes '''
 # object
@@ -377,13 +530,17 @@ class output_log:
 # define main program
 def main():
     # initialize game variables
-    has_t = False
-    has_s = False
-    has_f = False
     inventory = []
     log = []
     game_log = output_log()
     game_log.create_log(log)
+
+    # initialize game object
+    note = objects('Note from Ozzi', "A note that Ozzi handwrote to remind you that you will always be welcomed if you ever return to Zeron.")
+    timep = portal_object('Timepiece',"An old-fashioned, hourglass-type timepiece. The sand within it glows a golden hue within the gaudy, crystal frame. It seems to glitch in and out of existence, perhaps this odd object might help you get home.")
+    space = portal_object('Space Skipper', "It's pretty obvious that this was named by someone who thinks the concept of teleportation is lame.")
+    fuel = portal_object('Fuel Crystal', "A pretty drab looking stone that was just mined out of the ground, and a major source of energy on Zeron. The miners in Crater Vale hold a lot of pride for these dark rocks, so maybe that's why they're called 'fuel crystals' and not 'fuel rocks.'")
+
     
     # pre-game: obtain and confirm player username
     print()
@@ -399,7 +556,7 @@ def main():
     print()
 
     # confirm with player using player feedback and user validation
-    print(f'Are you certain that "{player}" is the name you would like to go by?')
+    print(f'Are you certain that "{player}" is the name you would like to go by? ("Yes" or "No")')
     y_n = input().strip().lower()
     while y_n not in ['yes','no']:
         print()
@@ -413,18 +570,6 @@ def main():
     
     # intro to game: Portal Hub - only runs once, is most of the actual program under "__main__"
     # A character introduces you to your objective via dialogue and player response (with very basic data validation)
-    print()
-    print()
-
-    # have user begin game when they're ready
-    print('>>> Type "Start" to begin game')
-    start = input().strip().lower()
-
-    # while user does not type "Start," remind player to start when they're ready
-    while start != 'start':
-        print()
-        print('>>> Type "Start" whenever you\'re ready to play.')
-        start = input().strip().lower()
 
     # add username to log
     game_log.add(f"Space Cadet {player}'s Adventurer's Log:")
@@ -511,7 +656,7 @@ def main():
         time.sleep(2)
 
     # add meeting Ozzi to log
-    game_log.add(f'{player} meets Ozzi and discovers that they have mistakenly arrived on to the planet Zeron.')
+    game_log.add(f'{player} met Ozzi and discovered that they have mistakenly arrived on the planet Zeron.')
 
     # continue text
     print(f'{player}: "So, I\'m on Zeron and your name is Ozzi?"')
@@ -551,7 +696,7 @@ def main():
         print('Ozzi: "Because of that, any portal we have opened to Earth has fallen to disrepair because nobody ever uses it, so we only open one when a human asks to go home."')
         time.sleep(3)
         # add having audacity to log
-        game_log.add(f'{player} talks to Ozzi and discovers that human are *not* the center of the universe.')
+        game_log.add(f'{player} talked to Ozzi and learned that human are *not* the center of the universe.')
 
     # continue dialogue until intro portion of game is over
     print('Ozzi: "In order for me to open a new portal to Earth, I will need three items: a Timepiece, a Space Skipper, and a Fuel Crystal."')
@@ -566,13 +711,13 @@ def main():
     time.sleep(3)
 
     # add learning objective to log
-    game_log.add(f'{player} learns how to get home to Earth.')
+    game_log.add(f'{player} learned how to get home to Earth.')
     
     # ask player where they want to go from the start location
     print()
     print()
     print('>>> It\'s time to find your way home, Space Cadet, where do you want to begin?')
-    time.sleep(2)
+    time.sleep(1)
     print('1: The Crater Vale Asteroid Mines')
     time.sleep(1)
     print('2: Sifter\'s Stack')
@@ -593,14 +738,14 @@ def main():
 
     # run player-selected location via location function, add first location to game log, and continue game from within the functions defined above the main program
     if inp == 1:
-        crater_vale(inventory, has_t, has_f, has_s, player)
-        game_log.add(f'{player} decides to go to the Crater Vale Asteroid Mines first.')
+        crater_vale(inventory, timep, fuel, space, player, game_log)
+        game_log.add(f'{player} decided to go to the Crater Vale Asteroid Mines first.')
     elif inp == 2:
-        sifters(inventory, has_t, has_f, has_s, player)
-        game_log.add(f'{player} decides to go to Sifter\'s Stack first.')
+        sifters(inventory, timep, fuel, space, player, game_log)
+        game_log.add(f'{player} decided to go to Sifter\'s Stack first.')
     elif inp == 3:
-        dock_deck(inventory, has_t, has_f, has_s, player)
-        game_log.add(f"{player} decides to go to Sid's Shuttle 'n Spacecraft Dockin' Deck first.")
+        dock_deck(inventory, timep, fuel, space, player, game_log)
+        game_log.add(f"{player} decided to go to Sid's Shuttle 'n Spacecraft Dockin' Deck first.")
 
 if __name__ == "__main__":
     main()
