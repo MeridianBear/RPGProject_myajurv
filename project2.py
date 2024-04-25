@@ -12,7 +12,7 @@ https://github.com/MeridianBear/RPGProject_myajurv
 https://github.com/MeridianBear/RPGProject_myajurv.git
 
 time worked:
-    8:45 hours
+    10:45 hours
 
 items to complete:
     - output log
@@ -99,8 +99,131 @@ def return_home(note, timep, fuel, space, player):
 
 # The Crater Vale Asteroid Mines
 def crater_vale(inventory, has_t, has_f, has_s, player):
-    # run the items for this section
-    
+
+    # initialize game object
+    fuel = portal_object('Fuel Crystal', "A pretty drab looking stone that was just mined out of the ground, and a major source of energy on Zeron. The miners in Crater Vale hold a lot of pride for these dark rocks, so maybe that's why they're called 'fuel crystals' and not 'fuel rocks.'")
+
+    if has_f == False:
+        # exposition for this area if you have not obtained fuel crystal
+        print('You walk into a bustling mining town, with all sorts of lifts and machinery moving around, and see Zeronians that look like buff Ozzis, each with fur of a different hue.')
+        time.sleep(3)
+        print('As you think to yourself that this must be where Ozzi is from, you hear a gruff snort come from right behind you.')
+        time.sleep(2)
+        print('You turn around and face a blue Zeronian that is about twice your height, and with muscles large enough to scare a boulder into spliting in half.')
+        time.sleep(3)
+        print('He leans down to make eye contact before speaking.')
+        time.sleep(1)
+        print('???: "How good are you at... arithmetic?"')
+        time.sleep(2)
+        print(f'{player}: "Huh? I mean... I\'m alright at it."')
+        time.sleep(2)
+        print('???: "Ah, I\'m sorry, I was getting ahead of myself. My name is Gerack, and I do not know arithmetic."')
+        time.sleep(2)
+        print('Gerack: "However, my sweet, little girl, Mais, is struggling with her homework. I\'m looking for someone who can help me understand what she is learning."')
+        time.sleep(3)
+        print('Gerack pauses before sputtering out another sentence.')
+        time.sleep(2)
+        print('Gerack: "O-Of course, I can compensate you for it, if needed."')
+        time.sleep(2)
+        print('Despite his somewhat scary appearance, he seems rather sweet. So you explain your situation to him, and ask if he would be able to procure an item for you.')
+        time.sleep(3)
+        print('Gerack: "Oh, you need a time crystal? Hmm... We should have a few left from our last expedition. I believe that one should be enough for a portal to Earth."')
+        time.sleep(3)
+        print(f'{player}: "Sounds good! Do you have any example problems we can work through?"')
+        time.sleep(2)
+        print('He pulls out a stack of about 30 sheets from the bag slung on his shoulder.')
+        time.sleep(2)
+        print('Gerack: "I believe this is more than enough?"')
+        time.sleep(1)
+        print('You two go to a nearby picnic table and take a seat.')
+        time.sleep(1)
+        print('You begin explaining how to add and subtract by counting on your fingers, and his eyes light up as he begins to make progress.')
+        time.sleep(2)
+
+        # user answers basic arithmetic questions, and the input is validated
+        print()
+        print('>>> Answer the following questions correctly, and you will obtain a Fuel Crystal from Gerack.')
+        time.sleep(2)
+        print()
+        print('What is 36 + 41?')
+        answer = int(input().strip())
+        while answer != 77:
+            print()
+            print('That doesn\'t seem quite right. Try again.')
+            time.sleep(1)
+            print('What is 36 + 41?')
+            answer = int(input().strip())
+
+        print()
+        print('What is 97 - 52?')
+        answer = int(input().strip())
+        while answer != 45:
+            print()
+            print('That doesn\'t seem quite right. Try again.')
+            time.sleep(1)
+            print('What is 97 - 52?')
+            answer = int(input().strip())
+
+        print()
+        print('What is 12 x 9?')
+        answer = int(input().strip())
+        while answer != 108:
+            print()
+            print('That doesn\'t seem quite right. Try again.')
+            time.sleep(1)
+            print('What is 12 x 9?')
+            answer = int(input().strip())
+
+        print()
+        print('What is 100 / 5?')
+        answer = int(input().strip())
+        while answer != 20:
+            print()
+            print('That doesn\'t seem quite right. Try again.')
+            time.sleep(1)
+            print('What is 100 / 5?')
+            answer = int(input().strip())
+
+        print()
+        print('What is 2 + 2?')
+        answer = int(input().strip())
+        while answer != 4:
+            print()
+            print('That doesn\'t seem quite right. Try again.')
+            time.sleep(1)
+            print('What is 2 + 2?')
+            answer = int(input().strip())
+        
+        # once the math is done, you talk to Gerack and obtain a fuel crystal
+        print()
+        print('After working through many, many problems, it seems that he finally has a grasp on how to complete them.')
+        time.sleep(2)
+        print('Gerack: "I think I understand how to solve it now... Once my daughter returns from school, I\'ll be able to help her with her homework."')
+        time.sleep(3)
+        print('You see Gerack get a little misty-eyed at the thought, and politely avert your eyes.')
+        time.sleep(2)
+        print('Gerack: "As promised, here is a Fuel Crystal."')
+        time.sleep(1)
+        # fuel crystal is added to your inventory
+        print('>>> Gerack hands you a large, obsidian-like stone, and you place it in your bag.')
+        fuel.pick_up(inventory)
+        has_f == True
+        time.sleep(2)
+        print('Gerack: "Thank you for your help, Adventurer."')
+        time.sleep(1)
+        print(f'{player}: "Of course, thank you for the fuel crystal, Gerack."')
+        time.sleep(2)
+        print('You bid each other goodbye, and head to your next destination.')
+        time.sleep(2)
+
+    # if player has already received a fuel crystal from Gerack,
+    else:
+    # find somewhere else to go
+        print('You see Gerack guiding his daughter, Mais, through a math problem, and smile to yourself.')
+        time.sleep(2)
+        print('There isn\'t much else for you to do here, so you decide to head somewhere else.')
+        time.sleep(2)
+
     # check if player can end game
     x = check(inventory, has_t, has_f, has_s)
     # if they can, begin end game procedures
@@ -132,6 +255,9 @@ def crater_vale(inventory, has_t, has_f, has_s, player):
 
 # Sifter's Stack
 def sifters(inventory, has_t, has_f, has_s, player):
+    # initialize game object
+    timep = portal_object('Timepiece',"An old-fashioned, hourglass-type timepiece. The sand within it glows a golden hue within the gaudy, crystal frame. It seems to glitch in and out of existence, perhaps this odd object might help you get home.")
+
     # run the items for this section
     
     # check if player can end game
@@ -165,6 +291,9 @@ def sifters(inventory, has_t, has_f, has_s, player):
 
 # Sid's Shuttle 'n Spacecraft Dockin' Deck
 def dock_deck(inventory, has_t, has_f, has_s, player):
+    # initialize game objects
+    space = portal_object('Space Skipper', "It's pretty obvious that this was named by someone who thinks the concept of teleportation is lame. I can't believe they allow children to have these.")
+
     # run the items for this section
     
     # check if player can end game
@@ -256,12 +385,6 @@ def main():
     game_log = output_log()
     game_log.create_log(log)
     
-    # initialize game objects
-    note = objects('Note from Ozzi',"A heartfelt note from the furry, pink guy you met on Zeron. You are beyond grateful for his help to get you home.")
-    timep = portal_object('Timepiece',"An old-fashioned, hourglass-type timepiece. The sand within it glows a golden hue within the gaudy, crystal frame. It seems to glitch in and out of existence, perhaps this odd object might help you get home.")
-    fuel = portal_object('Fuel Crystal', "A pretty drab looking stone that was just mined out of the ground, and a major source of energy on Zeron. The miners in Crater Vale hold a lot of pride for these dark rocks, so maybe that's why they're called 'fuel crystals' and not 'fuel rocks.'")
-    space = portal_object('Space Skipper', "It's pretty obvious that this was named by someone who thinks the concept of teleportation is lame. I can't believe they allow children to have these.")
-
     # pre-game: obtain and confirm player username
     print()
     print()
@@ -301,6 +424,7 @@ def main():
     while start != 'start':
         print()
         print('>>> Type "Start" whenever you\'re ready to play.')
+        start = input().strip().lower()
 
     # add username to log
     game_log.add(f"Space Cadet {player}'s Adventurer's Log:")
