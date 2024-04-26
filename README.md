@@ -10,4 +10,6 @@ to open a portal back to your home planet.
 
 Happy adventuring, Space Cadet, and good luck!
 
-DISCLAIMER: If you're a little silly goose who wants to type stuff they shouldn't when they're prompted for input, get back to your silly little pond. This game is for people who follow directions. <3
+DISCLAIMER 1: If you're a little silly goose who wants to type stuff they shouldn't when they're prompted for input, get back to your silly little pond. This game is for people who follow directions. <3
+
+DISCLAIMER 2: This game is incomplete, and can't actually be completed yet.
